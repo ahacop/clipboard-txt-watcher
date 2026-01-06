@@ -1,0 +1,7 @@
+# Clipboard Text Watcher Configuration
+
+# File to watch for clipboard content
+watch_file = "/host/ahacop/clipboard.txt"
+
+# Clipboard backend: "wayland" (default) or "x11"
+clipboard_backend = "wayland"
