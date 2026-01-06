@@ -84,13 +84,20 @@
               defaultText = lib.literalExpression "pkgs.clipboard-txt-watcher";
               description = "The clipboard-txt-watcher package to use";
             };
+
+            systemdTarget = lib.mkOption {
+              type = lib.types.str;
+              default = "graphical-session.target";
+              description = "Systemd user target to bind the service to. Change this if your window manager doesn't start graphical-session.target.";
+            };
           };
 
           config = lib.mkIf cfg.enable {
             systemd.user.services.clipboard-txt-watcher = {
               Unit = {
                 Description = "Clipboard Text File Watcher";
-                After = [ "graphical-session.target" ];
+                After = [ cfg.systemdTarget ];
+                PartOf = [ cfg.systemdTarget ];
               };
 
               Service = {
@@ -101,7 +108,7 @@
               };
 
               Install = {
-                WantedBy = [ "default.target" ];
+                WantedBy = [ cfg.systemdTarget ];
               };
             };
           };
